@@ -33,7 +33,8 @@
     font-size: 8rem;
     font-weight: bolder;
     margin-top: 5px;
-    color: #2a6009;
+    color: #000000;
+    flex: auto;
   }
   
   h2 {

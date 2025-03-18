@@ -1,43 +1,34 @@
 <template>
   <div class="quiz-container">
     <div v-if="currentQuestion">
-      <h2 class="question"> {{ currentQuestion.question }}</h2>
+      <h2 class="question">{{ currentQuestion.question }}</h2>
       <div class="options-container">
-        <div v-for="(option, index) in currentQuestion.options" :key="index">
-          <button @click="answerQuestion(option)" class="button-details">
-            {{ option }}
-          </button>
+        <button
+          v-for="(option, index) in currentQuestion.options"
+          :key="index"
+          @click="answerQuestion(option)"
+          class="button-details"
+        >
+          {{ option }}
+        </button>
       </div>
-    </div>
     </div>
 
     <div v-else>
-      <h2>Viktoriin on lõppenud!</h2>
-      <table>
-        <tr>
-          <th>Küsimus</th>
-          <th>Õige vastus</th>
-          <th>Teie vastus</th>
-        </tr>
-        <tr v-for="(entry, index) in userAnswers" :key="index">
-          <td>{{ entry.question }}</td>
-          <td>{{ entry.answer }}</td>
-          <td>{{ entry.userAnswer }}</td>
-        </tr>
-      </table>
-      <p>Teie koondskoor: {{ score }} / {{ totalQuestions }}</p>
-      <p>{{ personalizedMessage }}</p>
-
-      <button @click="restartQuiz" class="button-details">
-        Alusta uuesti
-      </button>
+      <ResultTable
+        :answers="userAnswers"
+        :score="score"
+        :total="totalQuestions"
+        :message="personalizedMessage"
+        @restart="restartQuiz"
+      />
     </div>
 
-    <FeedBackModal 
+    <FeedBackModal
       :isVisible="isModalVisible"
       :title="modalTitle"
       :message="feedbackMessage"
-      @close="closeModal" 
+      @close="closeModal"
     />
   </div>
 </template>
@@ -47,15 +38,19 @@ import { defineComponent, ref, onMounted } from 'vue';
 import { QuizService } from '~/services/QuizService';
 import { QuestionService } from '~/services/QuestionService';
 import FeedBackModal from './FeedBackModal.vue';
+import ResultTable from './ResultTable.vue';
+import type { AnswerEntry } from './ResultTable.vue';
+
 import { Question } from '~/models/Question';
 
 export default defineComponent({
   name: 'QuizComponent',
   components: {
-    FeedBackModal
+    FeedBackModal,
+    ResultTable
   },
   setup() {
-    const questionService = new QuestionService(); 
+    const questionService = new QuestionService();
     const quizService = new QuizService(questionService);
 
     const currentQuestion = ref<Question | null>(null);
@@ -66,13 +61,12 @@ export default defineComponent({
     const personalizedMessage = ref('');
     const totalQuestions = ref(0);
 
-    const userAnswers = ref<{ question: string; answer: string; userAnswer: string }[]>([]);
+    const userAnswers = ref<AnswerEntry[]>([]);
 
     onMounted(() => {
       totalQuestions.value = quizService.getQuestions().length;
       currentQuestion.value = quizService.startQuiz();
     });
-
 
     const loadNextQuestion = () => {
       const nextQuestion = quizService.nextQuestion();
@@ -92,7 +86,8 @@ export default defineComponent({
         userAnswers.value.push({
           question: currentQuestion.value.question,
           answer: currentQuestion.value.answer,
-          userAnswer: selectedOption
+          userAnswer: selectedOption,
+          correct: isCorrect
         });
 
         if (isCorrect) {
@@ -129,7 +124,6 @@ export default defineComponent({
       feedbackMessage,
       personalizedMessage,
       userAnswers,
-      quizService,
       answerQuestion,
       modalTitle,
       isModalVisible,
@@ -141,35 +135,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
-/* table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-} */
-
-th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-th {
-  background-color: #f2f2f2;
-}
-.question {
-  font-size: 2rem; /* Küsimuse suurus */
-  margin-bottom: 30px; /* Küsimuse ja nuppude vaheline kaugus */
-}
-
 .quiz-container {
   text-align: center;
   padding: 20px;
 }
+
 .options-container {
-  display: flex; 
-  justify-content: center; 
+  display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;  
+  gap: 10px;
+}
+
+.question {
+  font-size: 2rem;
+  margin-bottom: 30px;
 }
 </style>
