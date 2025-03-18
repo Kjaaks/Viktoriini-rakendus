@@ -1,4 +1,3 @@
-<!-- components/ResultTable.vue -->
 <template>
   <div class="result-table-container">
     <h2>Viktoriin on lõppenud!</h2>
@@ -67,8 +66,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 .result-table-container {
   text-align: center;
+  font-size: 1.9rem;
   padding: 20px;
 }
 .result-table {
@@ -78,7 +79,6 @@ export default defineComponent({
   font-size: 1.1rem;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 8px;
-  overflow: hidden;
 }
 .result-table th,
 .result-table td {
@@ -102,10 +102,10 @@ export default defineComponent({
 .score {
   margin-top: 20px;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 .message {
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   margin-top: 10px;
 }
 </style>

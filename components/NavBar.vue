@@ -13,7 +13,6 @@
 .navbar {
   background-color: #000000;
   width: 100vw;
-  margin: 0;
   color: white;
   padding: 4px 10px;
 }
