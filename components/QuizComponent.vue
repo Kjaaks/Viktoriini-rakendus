@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="quiz-container">
     <div v-if="currentQuestion">
-      <h2>{{ currentQuestion.question }}</h2>
-      <div v-for="(option, index) in currentQuestion.options" :key="index">
-        <button @click="answerQuestion(option)">
-          {{ option }}
-        </button>
+      <h2 class="question"> {{ currentQuestion.question }}</h2>
+      <div class="options-container">
+        <div v-for="(option, index) in currentQuestion.options" :key="index">
+          <button @click="answerQuestion(option)" class="button-details">
+            {{ option }}
+          </button>
       </div>
+    </div>
     </div>
 
     <div v-else>
@@ -26,7 +28,9 @@
       <p>Teie koondskoor: {{ score }} / {{ totalQuestions }}</p>
       <p>{{ personalizedMessage }}</p>
 
-      <button @click="restartQuiz">Alusta uuesti</button>
+      <button @click="restartQuiz" class="button-details">
+        Alusta uuesti
+      </button>
     </div>
 
     <FeedBackModal 
@@ -137,24 +141,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
-button {
-  margin: 10px;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
 
-button:hover {
-  background-color: #0056b3;
-}
-
-table {
+/* table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-}
+} */
 
 th, td {
   border: 1px solid #ddd;
@@ -164,5 +156,20 @@ th, td {
 
 th {
   background-color: #f2f2f2;
+}
+.question {
+  font-size: 2rem; /* Küsimuse suurus */
+  margin-bottom: 30px; /* Küsimuse ja nuppude vaheline kaugus */
+}
+
+.quiz-container {
+  text-align: center;
+  padding: 20px;
+}
+.options-container {
+  display: flex; 
+  justify-content: center; 
+  flex-wrap: wrap;
+  gap: 10px;  
 }
 </style>
