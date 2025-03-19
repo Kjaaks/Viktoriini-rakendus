@@ -90,12 +90,12 @@ export default defineComponent({
   background-color: #f0f0f0;
 }
 .result-table td.correct {
-  background-color: #d4edda;
+  background-color: #bfeac9;
   color: #155724;
   font-weight: bold;
 }
 .result-table td.incorrect {
-  background-color: #f8d7da;
+  background-color: #feacb3;
   color: #721c24;
   font-weight: bold;
 }

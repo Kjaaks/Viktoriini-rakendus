@@ -3,7 +3,7 @@ import { QuestionService } from "./QuestionService";
 
 export class QuizService {
     private questions: Question[] = [];
-    private currentQuestionIndex: number = 0;
+    public currentQuestionIndex: number = 0;
     private score: number = 0;
   
     constructor(questionService: QuestionService) {

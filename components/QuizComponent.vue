@@ -28,7 +28,16 @@
               Järgmine küsimus
             </button>
           </div>
+          <div class="progress-indicator">
+            <span
+              v-for="(_, index) in totalQuestions"
+              :key="index"
+              class="progress-dot"
+              :class="getDotClass(index)"
+            />
+          </div>
         </div>
+        
 
         <div v-else>
           <ResultTable
@@ -116,6 +125,13 @@ export default defineComponent({
       isAnswered.value = false;
     };
 
+    const getDotClass = (index: number) => {
+      if (index === quizService.currentQuestionIndex) return 'active';
+      const entry = userAnswers.value[index];
+      if (!entry) return '';
+      return entry.correct ? 'correct' : 'incorrect';
+    };
+
     return {
       currentQuestion,
       score,
@@ -126,7 +142,8 @@ export default defineComponent({
       loadNextQuestion,
       restartQuiz,
       selectedOption,
-      isAnswered
+      isAnswered,
+      getDotClass
     };
   }
 });
@@ -139,14 +156,17 @@ export default defineComponent({
 }
 
 .options-container {
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
   margin-bottom: 20px;
 }
 
+.button-details {
+    padding: 15px 30px;
+  }
 
 .button-details.correct {
   background-color: #69ac6c;
@@ -163,7 +183,7 @@ export default defineComponent({
 .next-question-button {
   margin-top: 22px;
   padding: 10px 24px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: white;
   border-radius: 8px;
 }
@@ -175,6 +195,34 @@ export default defineComponent({
   border-color: black;
 }
 .content-box {
-    max-width: 700px;
-  }
+  max-width: 700px;
+}
+
+
+  /* Edusammu nupukesed */
+  .progress-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ccc;
+  border: 2px solid transparent;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+.progress-dot.active {
+  border-color: #000;
+}
+.progress-dot.correct {
+  background-color: #63ad66;
+}
+
+.progress-dot.incorrect {
+  background-color: #fd2617;
+}
 </style>
