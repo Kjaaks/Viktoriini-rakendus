@@ -1,8 +1,10 @@
 <template>
   <div class="quiz-container">
     <div class="title-area">
-      <h2 class="question">{{ currentQuestion?.question }}</h2>
-    </div>
+  <h2 class="title-text">
+    {{ currentQuestion ? currentQuestion.question : 'Viktoriin on lõppenud!' }}
+  </h2>
+</div>
 
     <div class="content-background">
       <div class="content-box">
@@ -150,7 +152,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.question {
+.title-text {
   font-size: 3rem;
   margin-bottom: 30px;
 }
@@ -165,8 +167,8 @@ export default defineComponent({
 }
 
 .button-details {
-    padding: 15px 30px;
-  }
+  padding: 15px 30px;
+}
 
 .button-details.correct {
   background-color: #69ac6c;
@@ -198,9 +200,7 @@ export default defineComponent({
   max-width: 700px;
 }
 
-
-  /* Edusammu nupukesed */
-  .progress-indicator {
+.progress-indicator {
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -215,9 +215,11 @@ export default defineComponent({
   border: 2px solid transparent;
   transition: background-color 0.3s, border-color 0.3s;
 }
+
 .progress-dot.active {
   border-color: #000;
 }
+
 .progress-dot.correct {
   background-color: #63ad66;
 }

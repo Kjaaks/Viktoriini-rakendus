@@ -1,6 +1,5 @@
 <template>
   <div class="result-table-container">
-    <h2>Viktoriin on lõppenud!</h2>
     <table class="result-table">
       <thead>
         <tr>
